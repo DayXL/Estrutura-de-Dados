@@ -33,19 +33,19 @@ void verArvore(struct noArvore* raiz) {
     }
 }
 
-void inserir(struct noArvore** aux, struct noArvore* no, struct noArvore** raiz) {
-    if (*aux == NULL) {
-        *aux = no;
+void inserir(struct noArvore** raiz, struct noArvore* no) {
+    if (*raiz == NULL) {
+        *raiz = no;
     } 
     
     else {
 
-        if ((*aux)->valor > no->valor) {
-            inserir(&((*aux)->filEsq), no, raiz);
+        if ((*raiz)->valor > no->valor) {
+            inserir(&((*raiz)->filEsq), no);
         } 
         
         else {
-            inserir(&((*aux)->filDir), no, raiz);
+            inserir(&((*raiz)->filDir), no);
         }     
     }
 }
@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
     srand(time(NULL));
     
     for (i = 0; i < n; i++) {
-        inserir(&raiz, create_no(rand()), &raiz);
+        inserir(&raiz, create_no(rand()));
     }
 
     clock_gettime(CLOCK_MONOTONIC, &b);
