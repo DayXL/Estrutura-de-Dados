@@ -42,15 +42,8 @@ void inserirTabela(Tabela* tabela, Bloco* bloco) {
     else {
         int posicao = bloco->valor % tabela->tam;
 
-        if(tabela->lista[posicao] == NULL){
-            tabela->lista[posicao] = bloco;
-
-        }
-        
-        else{
-            bloco->proximo = tabela->lista[posicao];
-            tabela->lista[posicao] = bloco;
-        }
+        bloco->proximo = tabela->lista[posicao];
+        tabela->lista[posicao] = bloco;
 
         tabela->quant = tabela->quant + 1;;
     }
@@ -132,16 +125,11 @@ void atualizaTab(Tabela* tabela, Bloco* bloco) {
 
 	        Bloco *tab = novoBloco(novBloc->valor);
 
-	        if(novTabel.lista[posicao] == NULL){
-		        novTabel.lista[posicao] = tab;
-	        }
-
-            else{
-				tab->proximo = novTabel.lista[posicao];
-				novTabel.lista[posicao] = tab;
-		    }
+			tab->proximo = novTabel.lista[posicao];
+			novTabel.lista[posicao] = tab;
 
 			novBloc = novBloc->proximo;
+
 			novTabel.quant = novTabel.quant + 1;
 	    }
     }
@@ -200,6 +188,7 @@ int main(int argc, char **argv) {
     for (i = 0; i < 4; i++) {
         tabela.lista[i] = NULL;
     }
+
 
 	for (i = 0; i < n; i++) {
 		inserirTabela(&tabela, novoBloco(rand() % 10000));
