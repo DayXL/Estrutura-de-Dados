@@ -121,7 +121,7 @@ void atualizaTab(Tabela* tabela, Bloco* bloco) {
 	    novBloc = tabela->lista[i];
 
 	    while (novBloc != NULL){
-	        posicao = novBloc->valor % tabela->tam;
+	        posicao = novBloc->valor % novTabel.tam;
 
 	        Bloco *tab = novoBloco(novBloc->valor);
 
@@ -189,10 +189,15 @@ int main(int argc, char **argv) {
         tabela.lista[i] = NULL;
     }
 
-
-	for (i = 0; i < n; i++) {
-		inserirTabela(&tabela, novoBloco(rand() % 10000));
-	}
+    inserirTabela(&tabela, novoBloco(10));
+    inserirTabela(&tabela, novoBloco(20));
+    inserirTabela(&tabela, novoBloco(30));
+    inserirTabela(&tabela, novoBloco(40));
+    inserirTabela(&tabela, novoBloco(50));
+    inserirTabela(&tabela, novoBloco(80));
+	// for (i = 0; i < n; i++) {
+	// 	inserirTabela(&tabela, novoBloco(rand() % 10000));
+	// }
 
 
     clock_gettime(CLOCK_MONOTONIC, &b);
