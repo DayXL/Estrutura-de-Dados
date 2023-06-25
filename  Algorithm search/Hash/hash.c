@@ -189,19 +189,13 @@ int main(int argc, char **argv) {
         tabela.lista[i] = NULL;
     }
 
-    inserirTabela(&tabela, novoBloco(10));
-    inserirTabela(&tabela, novoBloco(20));
-    inserirTabela(&tabela, novoBloco(30));
-    inserirTabela(&tabela, novoBloco(40));
-    inserirTabela(&tabela, novoBloco(50));
-    inserirTabela(&tabela, novoBloco(80));
-	// for (i = 0; i < n; i++) {
-	// 	inserirTabela(&tabela, novoBloco(rand() % 10000));
-	// }
+	for (i = 0; i < n; i++) {
+		inserirTabela(&tabela, novoBloco(rand()));
+	}
 
 
     clock_gettime(CLOCK_MONOTONIC, &b);
-    achou = buscaTab(&tabela, n);
+    achou = buscaTab(&tabela, rand());
     clock_gettime(CLOCK_MONOTONIC, &a);
 
     // if (achou == 1) {
@@ -212,7 +206,7 @@ int main(int argc, char **argv) {
     //     printf("Não achou.\n");
     // }
 
-    exibeTabela(&tabela);
+    //exibeTabela(&tabela);
 
     t = (a.tv_sec * 1e9 + a.tv_nsec) - (b.tv_sec * 1e9 + b.tv_nsec);
 
