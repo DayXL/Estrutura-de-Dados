@@ -1,0 +1,9 @@
+100 311,7 797 215 100 ArvoreEsperado-100-100.txt
+200 368,77 474 318 100 ArvoreEsperado-100-200.txt
+300 438,29 862 357 100 ArvoreEsperado-100-300.txt
+400 371,53 717 290 100 ArvoreEsperado-100-400.txt
+500 436,77 864 333 100 ArvoreEsperado-100-500.txt
+600 368,76 724 283 100 ArvoreEsperado-100-600.txt
+700 438,19 582 1068 100 ArvoreEsperado-100-700.txt
+800 430,87 916 327 100 ArvoreEsperado-100-800.txt
+900 677,74 980 1006 100 ArvoreEsperado-100-900.txt
