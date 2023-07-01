@@ -294,16 +294,14 @@ int main(int argc, char **argv) {
     n = atoi(argv[1]);
 
     srand(time(NULL));
-
-    int ult = 0;
     
     for (i = 0; i < n; i++) {
-        ult = rand();
-        inserir(&raiz, criarNo(ult), &raiz);
+        
+        inserir(&raiz, criarNo(rand()), &raiz);
     }
 
     clock_gettime(CLOCK_MONOTONIC, &b);
-    struct noArvore** achou = procurar(&raiz, ult + 1);
+    struct noArvore** achou = procurar(&raiz, rand());
     clock_gettime(CLOCK_MONOTONIC, &a);
 
     t = (a.tv_sec * 1e9 + a.tv_nsec) - (b.tv_sec * 1e9 + b.tv_nsec);
