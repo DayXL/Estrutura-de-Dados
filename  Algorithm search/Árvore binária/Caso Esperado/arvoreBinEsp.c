@@ -89,13 +89,12 @@ int main(int argc, char **argv) {
     srand(time(NULL));
     
     for (i = 0; i < n; i++) {
-        inserir(&raiz, create_no(rand() % 4000));
+        inserir(&raiz, create_no(rand()));
 
-        
     }
 
     clock_gettime(CLOCK_MONOTONIC, &b);
-    struct noArvore** achar = procurar(&raiz, rand() % 4000);
+    struct noArvore** achar = procurar(&raiz, rand());
     clock_gettime(CLOCK_MONOTONIC, &a);
 
     t = (a.tv_sec * 1e9 + a.tv_nsec) - (b.tv_sec * 1e9 + b.tv_nsec);
