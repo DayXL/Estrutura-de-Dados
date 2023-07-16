@@ -81,6 +81,24 @@ int preencherVetor(Ligacoes* vetor){
     return 0;
 }
 
+void exibeNo(No *valorAdic) {
+    while (valorAdic != NULL){
+        printf("%d", valorAdic->valor);
+        printf(" --> ");
+        valorAdic = valorAdic->proximo;
+    }
+}
+
+
+void exibeGrafo(Vetor *vetor, int tam) {
+    for (int i = 0; i < tam; i++){
+        printf("Nó: %d", i + 1);
+        printf(" --> ");
+        exibeNo(vetor->lista[i]);
+        printf("\n");
+    }
+}
+
 int main(void) {
     Ligacoes vetor[48]; 
 
@@ -96,7 +114,8 @@ int main(void) {
 
     Vetor grafo;
 
-    grafo.quantArestas =  sizeof(vetor) / sizeof(Ligacoes);
+    grafo.quantArestas =  (sizeof(vetor) / sizeof(Ligacoes));
+    
     grafo.lista = malloc(sizeof(No*)*(vetor[47].no1));
 
     for (int i = 0; i <  vetor[47].no1; i++) {
@@ -123,6 +142,8 @@ int main(void) {
         }
     }
 
+    exibeGrafo(&grafo, vetor[47].no1);
+
     grafo.quantNos = 0;
 
     for (int i = 0; i < vetor[47].no1; i++) {
@@ -130,8 +151,6 @@ int main(void) {
             grafo.quantNos++;
         }
     }
-
-    printf("%d", grafo.quantNos);
 
     FILE *dot_file = fopen("grafo.dot", "w");
     if (dot_file == NULL) {
