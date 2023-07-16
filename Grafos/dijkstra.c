@@ -41,7 +41,7 @@ void dotGrafo(FILE* file, Vetor* vetor, int tam) {
 
     fprintf(file, "\"];\n");
 
-    for (int i = 0; i < vetor->quantNos; i++) {
+    for (int i = 0; i < tam; i++) {
         No* no = vetor->lista[i];
 
         if (no != NULL) {
