@@ -14,14 +14,119 @@ typedef struct no {
     struct no *proximo;
 } No;
 
+typedef struct auxVisitas {
+    int valor;
+    int visitado;
+} AuxVisitas;
+
 typedef struct vetor {
     int quantArestas;
     int quantNos; 
     No **lista;
 } Vetor;
 
-void dijkstra(int origem, Ligacoes grafo) {
+typedef struct memoria {
+    int tam;
+    int **lista;
+} Memoria;
 
+void liberarMemoriaGrafo(Vetor* grafo) {
+    for (int i = 0; i < grafo->quantNos; i++) {
+        No* listaAtual = grafo->lista[i];
+        while (listaAtual != NULL) {
+            No* proximo = listaAtual->proximo;
+            free(listaAtual);
+            listaAtual = proximo;
+        }
+    }
+
+    free(grafo->lista);
+};
+
+void removeFila(Memoria* memoria) {
+    Memoria nova;
+    nova.tam = memoria->tam - 1;
+    nova.lista = malloc(sizeof(int*) * nova.tam);
+
+    for (int i = 0; i < nova.tam; i++) {
+        nova.lista[i] = memoria->lista[i + 1];
+
+    }
+
+    free(memoria->lista);
+
+    (*memoria) = nova;
+
+}
+
+void adicionarFila(Memoria* memoria, int* novoValor) {
+    Memoria nova;
+    nova.tam = memoria->tam + 1;
+    nova.lista = malloc(sizeof(int*) * nova.tam);
+
+    for (int i = 0; i < nova.tam - 1; i++) {
+        nova.lista[i] = memoria->lista[i];
+    }
+
+    nova.lista[nova.tam - 1] = novoValor;
+
+    free(memoria->lista);
+    (*memoria) = nova;
+
+}
+
+int naoVisitado(AuxVisitas* visitados, int i, int valor) {
+    for (int j = 0; j < i; j ++) {
+        if (visitados[j].valor == valor) {
+            return visitados[j].visitado;
+        }
+    }
+
+    return 0;
+}
+
+void dijkstra(int origem, Vetor* grafo, int tam) {
+    Memoria memoria;
+    memoria.tam = 1;
+    memoria.lista = malloc(sizeof(int*)*(tam));
+
+    memoria.lista[0] = &origem;
+
+    (*grafo).lista[origem - 1]->visitado = origem;
+
+    AuxVisitas numVisitados[(*grafo).quantNos + 1];
+    numVisitados[0].valor = origem;
+    numVisitados[0].visitado = origem;
+    int i = 1;
+
+    while (memoria.tam) {
+        int* w = memoria.lista[0];
+        removeFila(&memoria);
+        
+        No* list;
+
+        for (list = grafo->lista[(*w) - 1]; list != NULL; list = list->proximo){
+
+            int visitado = naoVisitado(numVisitados, i, list->valor);
+
+            if (!visitado) { 
+                if (list->visitado == 0) {
+                    adicionarFila(&memoria, &list->valor);
+                    list->visitado = *w;
+                    numVisitados[i].valor = list->valor;
+                    numVisitados[i].visitado = *w;
+                    i = i + 1;
+                    
+                }
+            }
+
+            else {
+                list->visitado = visitado;
+            }
+        }
+
+    }
+    
 }
 
 void dotGrafo(FILE* file, Vetor* vetor, int tam) {
@@ -108,9 +213,9 @@ int main(void) {
         return 1;
     }
 
-    for (int i = 0; i < 48; i++) {
-        printf("Linha %d: no1 = %d, no2 = %d, pesoArestas = %d\n", i + 1, vetor[i].no1, vetor[i].no2, vetor[i].pesoArestas);
-    }
+    // for (int i = 0; i < 48; i++) {
+    //     printf("Linha %d: no1 = %d, no2 = %d, pesoArestas = %d\n", i + 1, vetor[i].no1, vetor[i].no2, vetor[i].pesoArestas);
+    // }
 
     Vetor grafo;
 
@@ -142,7 +247,7 @@ int main(void) {
         }
     }
 
-    exibeGrafo(&grafo, vetor[47].no1);
+    //exibeGrafo(&grafo, vetor[47].no1);
 
     grafo.quantNos = 0;
 
@@ -151,6 +256,8 @@ int main(void) {
             grafo.quantNos++;
         }
     }
+
+    dijkstra(11, &grafo,vetor[47].no1 );
 
     FILE *dot_file = fopen("grafo.dot", "w");
     if (dot_file == NULL) {
@@ -164,17 +271,7 @@ int main(void) {
 
     fclose(dot_file);
 
-    for (int i = 0; i < grafo.quantNos; i++) {
-        No* listaAtual = grafo.lista[i];
-        while (listaAtual != NULL) {
-            No* proximo = listaAtual->proximo;
-            free(listaAtual);
-            listaAtual = proximo;
-        }
-    }
-
-    free(grafo.lista);
-
+    liberarMemoriaGrafo(&grafo);
 
     return 0;
 }
